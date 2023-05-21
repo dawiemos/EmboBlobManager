@@ -1,0 +1,41 @@
+﻿@page "/blobuploadcmp"
+
+@using EmboBlobManager.BlobCls;
+@using Azure.Storage;
+@using Azure.Storage.Blobs;
+
+<h3>BlobUploadcmp</h3>
+
+<InputFile OnChange="@LoadFiles" multiple />
+
+
+@code {
+
+    private List<IBrowserFile> loadedFiles = new();
+    private bool isLoading;
+
+    private async void LoadFiles(InputFileChangeEventArgs e)
+    {
+        //await blobContainerClient.UploadBlobAsync(    trustedFileName, browserFile.OpenReadStream());
+
+        AzureBlobService azureBlobService = new AzureBlobService();
+
+        string connectionString = "DefaultEndpointsProtocol=https;AccountName=emboinstall;AccountKey=Of3fjrFcdX9SO7cHJUbHlr7tYt0v3RsBn9z2jESKHB1ZfmXhM7YfHZW6JJnv/5IugQoRGlMeX6iz3nQvl1aObw==;EndpointSuffix=core.windows.net";
+        string containerName = "thewrx";
+
+        BlobContainerClient blobContainerClient = new BlobContainerClient(connectionString, containerName);
+
+        string trustedFileName = e.File.Name;
+        IBrowserFile browserFile = e.File;
+
+        await blobContainerClient.UploadBlobAsync(trustedFileName, browserFile.OpenReadStream());
+
+        //var filePathOverCloud = file.Replace(folderPath, string.Empty);
+        //var filePathOverCloud = e.File.Name;
+
+        //using (FileStream stream = File.Open(e.File.Name, FileMode.Open))
+        //{
+        //    blobContainerClient.UploadBlob(filePathOverCloud, stream);
+        //}
+    }
+}

@@ -1,0 +1,119 @@
+﻿@page "/blobdownloadcmp"
+
+@inject HttpClient Http
+@using Azure.Storage;
+@using Azure.Storage.Blobs;
+
+<h3>BlobDownloadcmp</h3>
+
+<button @onclick="DownloadFile">Download</button>
+
+<p>@responseString</p>
+@*@if (blobs == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    foreach (var blob in blobs)
+    {
+        <div style="border:1px solid gray; margin-bottom:10px; width: 202px;">
+            <img src="@blob.Uri" alt="@blob.Name" @onclick="() => Download(blob.Name, blob.ContentType)"
+                 class="imgClass" />
+        </div>
+    }
+}*@
+
+@code {
+
+    string responseString { get; set; }
+
+    [Inject]
+    public IJSRuntime JSRuntime { get; set; }
+    //private BlobDto[] blobs;
+    //private IJSObjectReference _jsModule;
+
+    //private async Task DownloadFile()
+    //{
+
+    //    string connectionString = "DefaultEndpointsProtocol=https;AccountName=emboinstall;AccountKey=Of3fjrFcdX9SO7cHJUbHlr7tYt0v3RsBn9z2jESKHB1ZfmXhM7YfHZW6JJnv/5IugQoRGlMeX6iz3nQvl1aObw==;EndpointSuffix=core.windows.net";
+    //    string containerName = "thewrx";
+    //    string blobName = "hello.txt";
+
+    //    var container = new BlobContainerClient(connectionString, containerName);
+    //    var blob = container.GetBlobClient(blobName);
+    //    if (await blob.ExistsAsync())
+    //    {
+    //        var a = await blob.DownloadAsync();
+    //        //return File(a.Value.Content, a.Value.ContentType, name);
+
+    //        var getBlobPropertiesResult = blob.GetProperties();
+    //        var contentType = getBlobPropertiesResult.Value.ContentType;
+
+    //        await _jsModule.InvokeVoidAsync("download", new
+    //        {
+    //            ByteArray = a, // response,
+    //            FileName = blobName,
+    //            ContentType = contentType
+    //        });
+    //    }
+    //    //return BadRequest();
+    //}
+
+    //public class BlobDto
+    //{
+    //    public string Name { get; set; }
+    //    public string Uri { get; set; }
+    //    public string ContentType { get; set; }
+    //}
+
+    //[Inject]
+    //public IJSRuntime JSRuntime { get; set; }
+    //private BlobDto[] blobs;
+    //private IJSObjectReference _jsModule;
+
+
+
+
+    //protected override async Task OnInitializedAsync()
+    //{
+    //    _jsModule = await JSRuntime.InvokeAsync<IJSObjectReference>("import", "./scripts/downloadScript.js");
+    //    blobs = await Http.GetFromJsonAsync<BlobDto[]>("blobs");
+    //}
+    //private async Task Download(string name, string contentType)
+    //{
+    //    var response = await Http.GetByteArrayAsync("download/" + name);
+    //    await _jsModule.InvokeVoidAsync("download", new
+    //    {
+    //        ByteArray = response,
+    //        FileName = name,
+    //        ContentType = contentType
+    //    });
+    //}
+    //public class BlobDto
+    //{
+    //    public string Name { get; set; }
+    //    public string Uri { get; set; }
+    //    public string ContentType { get; set; }
+    //}
+
+    private async Task DownloadFile()
+    {
+        var fileName = "WaterElNino2.pdf"; // Provide the desired file name
+
+        string funcString = $"https://embofunctions.azurewebsites.net/api/DownloadFile/{fileName}";
+
+        var response = await Http.GetAsync(funcString);
+        if (response.IsSuccessStatusCode)
+        {
+            var content = await response.Content.ReadAsByteArrayAsync();
+
+            // Process the downloaded file content as needed
+        }
+        else
+        {
+            responseString = response.ToString();
+            // Error occurred during file download
+        }
+    }
+}

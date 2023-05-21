@@ -1,0 +1,57 @@
+﻿@page "/"
+
+@using EmboBlobManager;
+@using EmboBlobManager.BlobCls;
+
+<PageTitle>Index</PageTitle>
+
+<h1>Hello, Blobs!</h1>
+
+<p>@returnString</p>
+
+@*<SfUploader AutoUpload="false">
+    <UploaderEvents ValueChange="OnChange"></UploaderEvents>
+</SfUploader>*@
+
+@*@foreach (string blobName in listOfContainers)
+{
+    <p>@blobName</p>
+}
+*@
+
+@code{
+
+    List<string> listOfContainers = new List<string>();
+
+    string folderPath = @"C:\Embo\TestAzure\";
+    string fileName = "hello.txt";
+    private string returnString { get; set; } = ""; 
+
+    //protected override async Task OnInitializedAsync()
+    //{
+    //    var service = new AzureBlobService();
+
+    //    //listOfContainers = await service.ListBlobContainersAsync();
+
+    //    //await service.UploadFilesAsync();
+
+    //    this.returnString = await service.UploadSingleFile(folderPath, fileName);
+
+
+
+    //}
+
+    //private void OnChange(UploadChangeEventArgs args)
+    //{
+    //    foreach (var file in args.Files)
+    //    {
+    //        var path = @"path" + file.FileInfo.Name;
+    //        FileStream filestream = new FileStream(path, FileMode.Create, FileAccess.Write);
+    //        file.Stream.WriteTo(filestream);
+    //        filestream.Close();
+    //        file.Stream.Close();
+    //    }
+    //}
+   
+
+}
