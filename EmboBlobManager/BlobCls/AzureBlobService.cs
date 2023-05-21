@@ -34,7 +34,9 @@ namespace EmboBlobManager.BlobCls
 
         public async Task<List<Uri>> UploadFilesAsync()
         {
+
             var blobUris = new List<Uri>();
+
             //string filepath = @"C:\Embo\TestAzure\hello.txt";
             string filepath = @"hello.txt";
             var blobContainer = _blobServiceClient.GetBlobContainerClient("thewrx");
